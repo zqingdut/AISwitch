@@ -10,26 +10,35 @@ class OpenClawConfigGenerator:
     
     def generate_config(self, top_n: int = 5) -> Dict[str, Any]:
         """生成 OpenClaw 配置（所有渠道）"""
-        # 获取排名前 N 的模型
+        # 尝试获取排名前 N 的模型
         top_models = self.db.query(db_models.Model).join(
-            db_models.ModelRanking
+            db_models.ModelRanking,
+            db_models.Model.id == db_models.ModelRanking.model_id,
+            isouter=True
+        ).filter(
+            db_models.Model.is_active == True
         ).order_by(
-            db_models.ModelRanking.rank.asc()
+            db_models.ModelRanking.rank.asc().nullslast()
         ).limit(top_n).all()
         
         if not top_models:
-            return {"error": "No models available"}
+            return {"error": "No active models available"}
         
         # 按渠道分组
         channels_dict = {}
         for model in top_models:
             channel = model.channel
+            if not channel or not channel.is_active:
+                continue
             if channel.id not in channels_dict:
                 channels_dict[channel.id] = {
                     "channel": channel,
                     "models": []
                 }
             channels_dict[channel.id]["models"].append(model)
+        
+        if not channels_dict:
+            return {"error": "No active channels with models"}
         
         # 生成配置
         providers = {}
