@@ -33,10 +33,11 @@ async def run_tests(
     if len(models) != len(request.model_ids):
         raise HTTPException(status_code=404, detail="Some models not found")
     
-    # 在后台运行测试（使用增强版测试器）
-    tester = EnhancedModelTester(db)
+    # 使用 Celery 异步任务
+    from app.tasks import test_model_async
+    
     for model_id in request.model_ids:
-        background_tasks.add_task(tester.test_model, model_id, request.test_type)
+        test_model_async.delay(model_id, request.test_type)
     
     return {
         "message": f"Tests started for {len(request.model_ids)} models",
