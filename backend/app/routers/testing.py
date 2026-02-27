@@ -6,6 +6,7 @@ from app.db.database import get_db
 from app.models import database as db_models
 from app.models import schemas
 from app.services.tester import ModelTester
+from app.services.enhanced_tester import EnhancedModelTester
 from app.services.ranker import ModelRanker
 
 router = APIRouter()
@@ -32,8 +33,8 @@ async def run_tests(
     if len(models) != len(request.model_ids):
         raise HTTPException(status_code=404, detail="Some models not found")
     
-    # 在后台运行测试
-    tester = ModelTester(db)
+    # 在后台运行测试（使用增强版测试器）
+    tester = EnhancedModelTester(db)
     for model_id in request.model_ids:
         background_tasks.add_task(tester.test_model, model_id, request.test_type)
     
