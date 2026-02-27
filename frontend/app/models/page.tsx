@@ -13,6 +13,13 @@ interface Model {
   model_identifier: string;
   channel_id: number;
   channel?: Channel;
+  display_name?: string | null;
+  context_window?: number | null;
+  max_tokens?: number | null;
+  supports_tools?: boolean;
+  supports_vision?: boolean;
+  cost_input?: number | null;
+  cost_output?: number | null;
   is_active: boolean;
   created_at: string;
 }
@@ -73,11 +80,16 @@ export default function ModelsPage() {
       });
 
       if (res.ok) {
-        fetchModels();
+        await fetchModels();
         resetForm();
+        alert('保存成功！');
+      } else {
+        const error = await res.json();
+        alert(`保存失败: ${error.detail || '未知错误'}`);
       }
     } catch (error) {
       console.error('Failed to save model:', error);
+      alert('保存失败，请检查网络连接');
     }
   };
 

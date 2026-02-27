@@ -8,8 +8,11 @@ interface Channel {
   name: string;
   base_url: string;
   api_key: string;
+  auth_type?: string;
+  headers?: any;
   is_active: boolean;
   created_at: string;
+  updated_at?: string | null;
 }
 
 export default function ChannelsPage() {
@@ -55,11 +58,16 @@ export default function ChannelsPage() {
       });
 
       if (res.ok) {
-        fetchChannels();
+        await fetchChannels();
         resetForm();
+        alert('保存成功！');
+      } else {
+        const error = await res.json();
+        alert(`保存失败: ${error.detail || '未知错误'}`);
       }
     } catch (error) {
       console.error('Failed to save channel:', error);
+      alert('保存失败，请检查网络连接');
     }
   };
 
