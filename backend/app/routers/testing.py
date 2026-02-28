@@ -5,7 +5,6 @@ from pydantic import BaseModel
 from app.db.database import get_db
 from app.models import database as db_models
 from app.models import schemas
-from app.services.tester import ModelTester
 from app.services.enhanced_tester import EnhancedModelTester
 from app.services.ranker import ModelRanker
 
@@ -33,11 +32,10 @@ async def run_tests(
     if len(models) != len(request.model_ids):
         raise HTTPException(status_code=404, detail="Some models not found")
     
-    # 使用 Celery 异步任务
-    from app.tasks import test_model_async
-    
+    # 使用后台任务
+    tester = EnhancedModelTester(db)
     for model_id in request.model_ids:
-        test_model_async.delay(model_id, request.test_type)
+        background_tasks.add_task(tester.test_model, model_id, request.test_type)
     
     return {
         "message": f"Tests started for {len(request.model_ids)} models",

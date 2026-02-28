@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.db.database import engine, Base
-from app.routers import channels, models, testing, config, monitoring
+from app.routers import channels, models, testing, config, monitoring, analytics
 
 # 创建数据库表
 Base.metadata.create_all(bind=engine)
@@ -15,7 +15,12 @@ app = FastAPI(
 # CORS 配置
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://100.67.188.28:3000",  # Tailscale IP
+        "http://100.65.239.127:3000",  # 手机 Tailscale IP
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,6 +32,7 @@ app.include_router(models.router, prefix="/api/models", tags=["models"])
 app.include_router(testing.router, prefix="/api/test", tags=["testing"])
 app.include_router(config.router, prefix="/api/config", tags=["config"])
 app.include_router(monitoring.router, prefix="/api/monitoring", tags=["monitoring"])
+app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"])
 
 @app.get("/")
 async def root():

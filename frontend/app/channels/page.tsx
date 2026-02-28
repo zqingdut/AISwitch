@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Channel {
   id: number;
@@ -33,7 +34,7 @@ export default function ChannelsPage() {
 
   const fetchChannels = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/channels/');
+      const res = await fetch('${API_BASE_URL}/api/channels/');
       const data = await res.json();
       setChannels(data);
     } catch (error) {
@@ -47,8 +48,8 @@ export default function ChannelsPage() {
     e.preventDefault();
     try {
       const url = editingChannel 
-        ? `http://localhost:8000/api/channels/${editingChannel.id}/`
-        : 'http://localhost:8000/api/channels/';
+        ? `${API_BASE_URL}/api/channels/${editingChannel.id}/`
+        : '${API_BASE_URL}/api/channels/';
       const method = editingChannel ? 'PUT' : 'POST';
       
       const res = await fetch(url, {
@@ -75,7 +76,7 @@ export default function ChannelsPage() {
     if (!confirm('确定要删除这个渠道吗？')) return;
     
     try {
-      const res = await fetch(`http://localhost:8000/api/channels/${id}/`, {
+      const res = await fetch(`${API_BASE_URL}/api/channels/${id}/`, {
         method: 'DELETE'
       });
       if (res.ok) {

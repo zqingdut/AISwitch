@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '@/lib/api';
 
 interface ModelRanking {
   id: number;
@@ -26,7 +27,7 @@ export default function ConfigPage() {
 
   const fetchRankings = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/models/ranking');
+      const res = await fetch(`${API_BASE_URL}/api/models/ranking`);
       const data = await res.json();
       setRankings(data);
     } catch (error) {
@@ -39,7 +40,7 @@ export default function ConfigPage() {
   const generateConfig = async () => {
     setGenerating(true);
     try {
-      const res = await fetch('http://localhost:8000/api/config/generate', {
+      const res = await fetch(`${API_BASE_URL}/api/config/generate`, {
         method: 'POST'
       });
       const data = await res.json();

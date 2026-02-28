@@ -47,6 +47,9 @@ export default function RootLayout({
                     <Link href="/config" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-gray-600">
                       配置生成
                     </Link>
+                    <Link href="/analytics" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-gray-600">
+                      数据分析
+                    </Link>
                   </div>
                 </div>
               </div>

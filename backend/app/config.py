@@ -10,8 +10,8 @@ from typing import Optional
 class Settings(BaseSettings):
     """应用配置"""
     
-    # 数据库配置
-    DATABASE_URL: str = "sqlite:///./aiswitch.db"
+    # 数据库配置 - 使用绝对路径避免启动目录问题
+    DATABASE_URL: str = "sqlite:////Users/niko/projects/aiswitch/backend/aiswitch.db"
     
     # Redis 配置（可选）
     REDIS_URL: Optional[str] = None

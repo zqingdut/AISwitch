@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Model {
   id: number;
@@ -32,7 +33,7 @@ export default function TestPage() {
 
   const fetchModels = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/models/');
+      const res = await fetch(`${API_BASE_URL}/api/models/`);
       const data = await res.json();
       setModels(data.filter((m: Model & { is_active: boolean }) => m.is_active));
     } catch (error) {
@@ -42,7 +43,7 @@ export default function TestPage() {
 
   const fetchResults = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/test/results?limit=50');
+      const res = await fetch(`${API_BASE_URL}/api/test/results?limit=50`);
       const data = await res.json();
       setResults(data);
     } catch (error) {
@@ -58,7 +59,7 @@ export default function TestPage() {
 
     setTesting(true);
     try {
-      const res = await fetch('http://localhost:8000/api/test/run', {
+      const res = await fetch(`${API_BASE_URL}/api/test/run`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

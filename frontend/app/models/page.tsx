@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '@/lib/api';
 
 interface Channel {
   id: number;
@@ -45,7 +46,7 @@ export default function ModelsPage() {
 
   const fetchModels = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/models/');
+      const res = await fetch('${API_BASE_URL}/api/models/');
       const data = await res.json();
       setModels(data);
     } catch (error) {
@@ -57,7 +58,7 @@ export default function ModelsPage() {
 
   const fetchChannels = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/channels/');
+      const res = await fetch('${API_BASE_URL}/api/channels/');
       const data = await res.json();
       setChannels(data);
     } catch (error) {
@@ -69,8 +70,8 @@ export default function ModelsPage() {
     e.preventDefault();
     try {
       const url = editingModel 
-        ? `http://localhost:8000/api/models/${editingModel.id}/`
-        : 'http://localhost:8000/api/models/';
+        ? `${API_BASE_URL}/api/models/${editingModel.id}/`
+        : '${API_BASE_URL}/api/models/';
       const method = editingModel ? 'PUT' : 'POST';
       
       const res = await fetch(url, {
@@ -97,7 +98,7 @@ export default function ModelsPage() {
     if (!confirm('确定要删除这个模型吗？')) return;
     
     try {
-      const res = await fetch(`http://localhost:8000/api/models/${id}/`, {
+      const res = await fetch(`${API_BASE_URL}/api/models/${id}/`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -131,7 +132,7 @@ export default function ModelsPage() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://localhost:8000/api/models/import/', {
+      const res = await fetch('${API_BASE_URL}/api/models/import/', {
         method: 'POST',
         body: formData
       });

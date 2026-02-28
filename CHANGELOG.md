@@ -2,9 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2026-02-27
+## [1.1.0] - 2026-02-28
 
-### Added - Phase 2 & 3 Complete
+### Added - Phase 2 Complete ✅
+
+#### 测试历史数据可视化
+- ✅ Analytics API 路由
+  - 测试历史趋势数据
+  - 模型性能对比
+  - 测试类型分布统计
+  - 单个模型性能趋势
+- ✅ 数据可视化页面
+  - 测试趋势折线图（成功率、响应时间）
+  - 模型性能对比柱状图
+  - 测试类型分布饼图
+  - 模型详细统计表格
+- ✅ 时间范围筛选（7/14/30天）
+- ✅ Recharts 图表库集成
+
+#### Tailscale 远程访问支持
+- ✅ CORS 配置支持 Tailscale IP
+- ✅ 前端 API 配置统一管理
+- ✅ 环境变量支持（.env.local）
+- ✅ 所有页面使用动态 API_BASE_URL
 
 #### Real AI API Testing
 - ✅ AIAPIClient for unified API calls across providers
@@ -13,42 +33,15 @@ All notable changes to this project will be documented in this file.
 - ✅ Enhanced error handling and timeout control
 - ✅ Improved code quality evaluation
 
-#### Database & Infrastructure
-- ✅ PostgreSQL support with connection pooling
-- ✅ Database migration script (SQLite → PostgreSQL)
-- ✅ Environment-based configuration management
-- ✅ Settings class for centralized config
-
-#### Async Task Queue
-- ✅ Celery integration with Redis backend
-- ✅ Async model testing tasks
-- ✅ Scheduled tasks (hourly tests, ranking updates)
-- ✅ Task status tracking
-
-#### Security & Authentication
-- ✅ API key encryption using Fernet
-- ✅ Password hashing with bcrypt
-- ✅ JWT token authentication
-- ✅ User model with role-based access control
-- ✅ API Token management
-
-#### Monitoring & Health
-- ✅ Detailed health check endpoints
-- ✅ System resource monitoring (CPU, memory, disk)
-- ✅ Database connection health checks
-- ✅ Metrics endpoint with statistics
-- ✅ Model health tracking
-
 ### Changed
 - Updated API version from 1.0.0 to 1.1.0
-- Enhanced testing router to use Celery tasks
-- Improved database connection handling
+- Enhanced navigation with Analytics link
+- Improved frontend API configuration management
 
 ### Technical Stack Updates
+- Added: recharts for data visualization
 - Added: cryptography, passlib, python-jose
 - Added: psutil for system monitoring
-- Added: celery, redis for async tasks
-- Added: psycopg2-binary for PostgreSQL
 
 ---
 
